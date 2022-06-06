@@ -56,7 +56,7 @@ const connectWalletConnect = async () => {
       console.log(web3, "web3");
       window.w3 = web3;
       const accounts = await web3.eth.getAccounts(); // get all connected accounts
-      account = accounts[0]; // get the primary account
+      const account = accounts[0]; // get the primary account
       console.log("WC account", account);
       // returning web3
       return web3;
