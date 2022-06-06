@@ -19,7 +19,6 @@ const connectWalletConnect = async (infuraID) => {
       console.log(error);
   }
 
-  return web3;
 };
 
 
