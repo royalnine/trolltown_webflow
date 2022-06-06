@@ -1,5 +1,5 @@
 
-const checkIfWalletConnectIsConnected = async (web3) => {
+const checkIfWalletConnectIsConnected = async () => {
     console.log("window", window);
     let __isConnected = false;
 
@@ -30,7 +30,7 @@ const mint = async () => {
       const trollTownContract = new ethers.Contract(contractAddress, contractABI, signer);
       console.log("about to mint")
     
-      const mintTxn = await trollTownContract.mint(5);
+      const mintTxn = await trollTownContract.mint(1);
       let minted = await mintTxn.wait();
       alert("Successfully minted!" );
       console.log(minted)
@@ -47,7 +47,7 @@ const connectWalletConnect = async () => {
   try {
       // https://docs.walletconnect.com/quick-start/dapps/web3-provider
       const provider = new WalletConnectProvider({
-          infuraId: "6fd8570baa174be9946bc5c6b834c404"
+          infuraId: infuraID
       });
 
       await provider.enable();
