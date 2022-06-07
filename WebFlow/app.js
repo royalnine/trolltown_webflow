@@ -51,7 +51,7 @@ const checkIfWalletIsConnected = async () => {
 const connectWalletConnect = async (infuraID) => {
   try {
       // https://docs.walletconnect.com/quick-start/dapps/web3-provider
-      const provider = new WalletConnectProvider({
+      const provider = new WalletConnectProvider.default({
           infuraId: infuraID
       });
 
