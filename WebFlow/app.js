@@ -1,27 +1,3 @@
-const connectWalletConnect = async (infuraID) => {
-  try {
-      // https://docs.walletconnect.com/quick-start/dapps/web3-provider
-      const provider = new WalletConnectProvider({
-          infuraId: infuraID
-      });
-
-      await provider.enable();
-      //  Create Web3 instance
-      const web3 = new Web3(provider);
-      console.log(web3, "web3");
-      window.w3 = web3;
-      const accounts = await web3.eth.getAccounts(); // get all connected accounts
-      const account = accounts[0]; // get the primary account
-      console.log("WC account", account);
-      // returning web3
-      return web3;
-  } catch (error) {
-      console.log(error);
-  }
-
-};
-
-
 const checkIfWalletConnectIsConnected = async (web3) => {
   console.log("window", window);
   let __isConnected = false;
@@ -43,29 +19,140 @@ const checkIfWalletConnectIsConnected = async (web3) => {
 };
 
 
-const mint = async (numberOfTokens, contractAddress, contractABI) => {
-  console.log("starting")
+const checkIfWalletIsConnected = async () => {
+  let isConnected = false;
   try {
-    const { ethereum } = window;
-    console.log("trying")
+      const { ethereum } = window;
 
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const trollTownContract = new ethers.Contract(contractAddress, contractABI, signer);
-      console.log("about to mint")
-    
-      const mintTxn = await trollTownContract.mint(numberOfTokens);
-      let minted = await mintTxn.wait();
-      alert("Successfully minted!" );
-      console.log(minted)
-    } else {
-      console.log("Ethereum object doesn't exist!");
-    }
+      if (!ethereum) {
+          console.log("Make sure you have metamask!");
+          return;
+      } else {
+          console.log("We have the ethereum object", ethereum);
+      }
+
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+          const account = accounts[0];
+          console.log("Found an authorized account:", account);
+          isConnected = true;
+      } else {
+          console.log("No authorized account found");
+      }
   } catch (error) {
-    alert(error)
+      console.log(error);
   }
-}
+  console.log("isConnected", isConnected);
+  return isConnected;
+};
+
+
+const connectWalletConnect = async (infuraID) => {
+  try {
+      // https://docs.walletconnect.com/quick-start/dapps/web3-provider
+      const provider = new WalletConnectProvider({
+          infuraId: infuraID
+      });
+
+      await provider.enable();
+      //  Create Web3 instance
+      const web3 = new Web3(provider);
+      console.log(web3, "web3");
+      window.w3 = web3;
+      const accounts = await web3.eth.getAccounts(); // get all connected accounts
+      const account = accounts[0]; // get the primary account
+      console.log("WC account", account);
+      // returning web3
+      return web3;
+  } catch (error) {
+      console.log(error);
+  }
+
+  return web3;
+};
+
+
+const connectWallet = async () => {
+  // connect to metamask
+  try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+          if (
+              window.confirm(
+                  'Get MetaMask! If you click "ok" you will be redirected to install MetaMask'
+              )
+          ) {
+              window.location.href = "https://metamask.io/";
+          }
+          return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+  } catch (error) {
+      console.log(error);
+  }
+};
+
+
+// const mint = async (web3, numberOfTokens, contractAddress, contractABI) => {
+
+//   await $.getJSON(
+//       "https://api.jsonbin.io/b/628527b525069545a33c4b81", //change this 
+//       function (data) {
+//           // JSON result in `data` variable
+//           console.log("Got contract abi");
+//           contractABI = data.abi;
+//       }
+//   );
+
+//   const { ethereum } = window;
+//   let trollTownContract;
+  
+//   if (web3) {
+//     trollTownContract = new web3.eth.Contract(
+//         contractABI,
+//         contractAddress
+//     ); // create instance of the contract to retrieve data from.
+//   } else if (ethereum) {
+//     const provider = new ethers.providers.Web3Provider(ethereum);
+//     const signer = provider.getSigner();
+//     trollTownContract = new ethers.Contract(
+//       contractAddress,
+//       contractABI,
+//       signer
+//     );
+//   }
+
+//   if (web3){
+
+//   } else {
+//     const mintTxn = await trollTownContract.mint(numberOfTokens);
+//     let minted = await mintTxn.wait();
+//     alert("Successfully minted!" );
+//     console.log(minted)
+//   }
+
+//   console.log("starting")
+//   try {
+//     const { ethereum } = window;
+//     console.log("trying")
+
+//     if (ethereum) {
+//       const provider = new ethers.providers.Web3Provider(ethereum);
+//       const signer = provider.getSigner();
+//       const trollTownContract = new ethers.Contract(contractAddress, contractABI, signer);
+//       console.log("about to mint")
+    
+      
+//     } else {
+//       console.log("Ethereum object doesn't exist!");
+//     }
+//   } catch (error) {
+//     alert(error)
+//   }
+// }
 
 
 
