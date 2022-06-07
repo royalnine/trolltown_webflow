@@ -96,63 +96,46 @@ const connectWallet = async () => {
 };
 
 
-// const mint = async (web3, numberOfTokens, contractAddress, contractABI) => {
+const mint = async (web3, numberOfTokens, contractAddress) => {
+  var contractABI;
+  await $.getJSON(
+    "https://api.jsonbin.io/b/629e58c8449a1f3821ffbd7e", //change this 
+    function (data) {
+        // JSON result in `data` variable
+        console.log("Got contract abi");
+        contractABI = data.abi;
+        console.log(contractABI)
+    }
+  );
 
-//   await $.getJSON(
-//       "https://api.jsonbin.io/b/628527b525069545a33c4b81", //change this 
-//       function (data) {
-//           // JSON result in `data` variable
-//           console.log("Got contract abi");
-//           contractABI = data.abi;
-//       }
-//   );
-
-//   const { ethereum } = window;
-//   let trollTownContract;
+  const { ethereum } = window;
+  let trollTownContract;
   
-//   if (web3) {
-//     trollTownContract = new web3.eth.Contract(
-//         contractABI,
-//         contractAddress
-//     ); // create instance of the contract to retrieve data from.
-//   } else if (ethereum) {
-//     const provider = new ethers.providers.Web3Provider(ethereum);
-//     const signer = provider.getSigner();
-//     trollTownContract = new ethers.Contract(
-//       contractAddress,
-//       contractABI,
-//       signer
-//     );
-//   }
+  if (web3) {
+    trollTownContract = new web3.eth.Contract(
+        contractABI,
+        contractAddress
+    ); // create instance of the contract to retrieve data from.
+  } else if (ethereum) {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    trollTownContract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      signer
+    );
+  }
 
-//   if (web3){
+  if (web3){
+    console.log("web3")
+  } else {
+    const mintTxn = await trollTownContract.mint(numberOfTokens);
+    let minted = await mintTxn.wait();
+    alert("Successfully minted!" );
+    console.log(minted)
+  }
 
-//   } else {
-//     const mintTxn = await trollTownContract.mint(numberOfTokens);
-//     let minted = await mintTxn.wait();
-//     alert("Successfully minted!" );
-//     console.log(minted)
-//   }
-
-//   console.log("starting")
-//   try {
-//     const { ethereum } = window;
-//     console.log("trying")
-
-//     if (ethereum) {
-//       const provider = new ethers.providers.Web3Provider(ethereum);
-//       const signer = provider.getSigner();
-//       const trollTownContract = new ethers.Contract(contractAddress, contractABI, signer);
-//       console.log("about to mint")
-    
-      
-//     } else {
-//       console.log("Ethereum object doesn't exist!");
-//     }
-//   } catch (error) {
-//     alert(error)
-//   }
-// }
+}
 
 
 
