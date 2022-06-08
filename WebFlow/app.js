@@ -133,7 +133,7 @@ const mintTrolls = async (web3, numberOfTokens, contractAddress) => {
     console.log(amount)
     const mintTxn = await trollTownContract.mint(numberOfTokens, {value: amount});
     let minted = await mintTxn.wait();
-    alert("Successfully minted!" );
+    alert("Successfully minted!" ); 
     console.log(minted)
   }
 
