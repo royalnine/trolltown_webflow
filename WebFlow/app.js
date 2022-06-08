@@ -128,7 +128,7 @@ const mintTrolls = async (web3, numberOfTokens, contractAddress) => {
 
   if (web3){
     console.log("web3")
-  } else {
+  } else { 
     const amount = ethers.BigNumber.from(numberOfTokens).mul(ethers.BigNumber.from(10).pow(14)).mul(ethers.BigNumber.from(15));
     console.log(amount)
     const mintTxn = await trollTownContract.mint(numberOfTokens, {value: ethers.utils.formatUnits(amount)});
