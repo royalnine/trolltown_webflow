@@ -96,10 +96,10 @@ const connectWallet = async () => {
 };
 
 
-const mintTrolls = async (web3, numberOfTokens, contractAddress) => {
+const mintTrolls = async (web3, numberOfTokens, contractAddress, abiURL) => {
   var contractABI;
   await $.getJSON(
-    "https://api.jsonbin.io/b/62ae1e52449a1f38210f14f0", //change this 
+    abiURL, //change this 
     function (data) {
         // JSON result in `data` variable
         console.log("Got contract abi");
